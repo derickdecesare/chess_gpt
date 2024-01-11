@@ -1,0 +1,8 @@
+server/chess_games.db
+server/api/neural_net
+server/stockfish-windows-x86-64-avx2.exe
+server/api/__pycache__
+server/api/fast
+
+client/node_modules
+
