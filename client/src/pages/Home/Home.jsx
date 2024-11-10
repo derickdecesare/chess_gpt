@@ -69,6 +69,24 @@ export default function Home() {
     makeAMove(move);
   };
 
+  const handleGPTMove = async () => {
+    console.log("handlePythonAIMove");
+    const response = await fetch("http://127.0.0.1:8000/gpt-next-move", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        fen: gameRef.current.fen(),
+        pgn: gameRef.current.pgn(),
+      }),
+    });
+    const data = await response.json();
+    console.log("data", data);
+    const move = data.best_move;
+    makeAMove(move);
+  };
+
   const handleStockFishMove = async () => {
     console.log("handleStockFishMove");
     const response = await fetch("http://127.0.0.1:8000/stockfish-next-move", {
@@ -146,12 +164,12 @@ export default function Home() {
 
       // this is where we are going to make api call the backend to get the eval for the current fen
       console.log("fen", gameRef.current.fen());
-      try {
-        const evalFromAI = await getEval(gameRef.current.fen());
-        console.log("eval", evalFromAI);
-      } catch (err) {
-        console.log(err);
-      }
+      // try {
+      //   const evalFromAI = await getEval(gameRef.current.fen());
+      //   console.log("eval", evalFromAI);
+      // } catch (err) {
+      //   console.log(err);
+      // }
       setIsPlayerTurn(!isPlayerTurn); // Toggle the turn
     }
     return result;
@@ -228,10 +246,10 @@ export default function Home() {
           Run min max algo
         </button>
         <button
-          onClick={handleStockFishMove}
+          onClick={handleGPTMove}
           className="mb-4 bg-gray-900 hover:text-yellow-100 text-white py-2 px-4 rounded ml-4"
         >
-          Stockfish
+          GPT Move
         </button>
         <button
           onClick={undoMove}
