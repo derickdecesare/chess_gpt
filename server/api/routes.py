@@ -24,9 +24,9 @@ async def gpt_next_move(position: ChessPosition):
     # return {"best_move": random_move.uci()}
 
     # add the ;. to the start of the pgn to match format that our nn expects
-    formatted_pgn = ";" + polish_pgn(position.pgn)
-
-    print("formatted_pgn", formatted_pgn)
+    formatted_pgn = ";" + polish_pgn(position.pgn) + " " # add a space at the end so it knows to generate next move (only works for black?)
+ 
+    print(f"formatted_pgn-->'{formatted_pgn}'")
 
     move = generate_next_move_with_gpt(formatted_pgn, position.fen, position.pgn)
 

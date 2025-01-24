@@ -53,13 +53,13 @@ def generate_next_move_with_gpt(game_history, rawFen, rawPgn, max_attempts=5,):
 
      # Starting temperature and increment
     base_temperature = 0.6
-    temperature_increment = 0.1
+    temperature_increment = 0.2
 
     for attempt in range(max_attempts):
         # Adjust temperature for this attempt
         temperature = base_temperature + (temperature_increment * attempt)
-        # Prepare the input prompt
-        prompt = game_history.strip()
+        # Input prompt is already prepared in routes.py
+        prompt = game_history
 
         # Encode the prompt
         start_ids = encode(prompt)
@@ -120,7 +120,7 @@ def generate_next_move_with_gpt(game_history, rawFen, rawPgn, max_attempts=5,):
                 break  # We don't want to try the next token.. 
 
         # If no valid move found in this attempt, proceed to the next attempt
-        print("No valid move found in this attempt. Retrying...")
+        print("No valid move found in this attempt. Retrying... and increasing temperature")
         # increase temperature for next attempt
         temperature += temperature_increment
         print("new_temperature", temperature)
